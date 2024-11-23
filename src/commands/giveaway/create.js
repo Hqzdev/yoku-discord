@@ -35,6 +35,7 @@ module.exports = {
         const giveawayName = interaction.options.getString('name');
         const prizeRole = interaction.options.getRole('prize-role');
         const prizeMoney = interaction.options.getNumber('prize-money');
+        const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
         // Создаем Embed для подтверждения старта розыгрыша
         const giveawayEmbed = new EmbedBuilder()
@@ -44,7 +45,7 @@ module.exports = {
                 { name: 'Duration', value: `${duration} minutes`, inline: true },
                 { name: 'Prize', value: prizeRole ? `Role: ${prizeRole.name}` : `Money: ${prizeMoney || 'No prize set'}`, inline: true }
             )
-            .setColor('#FFD700')
+            .setColor(embedColor)
             .setTimestamp();
 
         // Отправляем эмбед сообщения
