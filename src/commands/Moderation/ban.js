@@ -26,7 +26,7 @@ module.exports = {
   callback: async (client, interaction) => {
     if (!interaction.inGuild()) {
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription('<:freeiconcross391116:1288790867204898846> | You can only run this command inside a server.');
 
       interaction.reply({ embeds: [embed], ephemeral: true });
@@ -37,13 +37,14 @@ module.exports = {
       await interaction.deferReply();
 
       const member = interaction.options.getUser('user');
+      const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
       const reason = interaction.options.getString('reason') || 'No reason provided';
       const days = interaction.options.getInteger('days') || 0;
 
       const guildMember = interaction.guild.members.cache.get(member.id);
       if (!guildMember) {
         const embed = new EmbedBuilder()
-          .setColor('#303135')
+          .setColor(embedColor)
           .setDescription(`
 <:freeiconcross391116:1288790867204898846> | <@${member.id}> is not on this server or cannot be found.`);
         interaction.editReply({ embeds: [embed] });
@@ -54,13 +55,13 @@ module.exports = {
       await guildMember.ban({ reason, days });
 
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | <@${member.id}> was banned from the server.\nReason: **${reason}**. Deleted **${days}** days of messages.`);
       interaction.editReply({ embeds: [embed] });
     } catch (error) {
       console.log(`Error with /ban: ${error}`);
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription(`
 <:freeiconcross391116:1288790867204898846> | An error occurred while trying to ban <@${member.id}>.`);
       interaction.editReply({ embeds: [embed] });

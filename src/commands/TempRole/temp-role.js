@@ -29,6 +29,7 @@ module.exports = {
     const role = interaction.options.getRole('role');
     const duration = interaction.options.getInteger('duration');
     const expirationTime = new Date(Date.now() + duration * 60 * 1000); // вычисляем время окончания роли
+    const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
     // Добавляем роль пользователю
     const guildMember = await interaction.guild.members.fetch(user.id);
@@ -44,7 +45,7 @@ module.exports = {
     await tempRole.save();
 
     const embed = new EmbedBuilder()
-    .setColor('#303135')
+    .setColor(embedColor)
       .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | Temporary role **${role.name}** assigned to ${user.username} for ${duration} minutes.`);
     interaction.reply({ embeds: [embed] });
 

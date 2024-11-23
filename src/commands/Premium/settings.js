@@ -52,6 +52,7 @@ module.exports = {
 
     const filter = i => i.customId === 'settings_menu' && i.user.id === interaction.user.id;
     const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
+    const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
     collector.on('collect', async i => {
       let responseEmbed = new EmbedBuilder();

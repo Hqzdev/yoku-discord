@@ -22,7 +22,7 @@ module.exports = {
   callback: async (client, interaction) => {
     if (!interaction.inGuild()) {
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription('<:freeiconcross391116:1288790867204898846>  | You can only run this command inside a server.');
 
       interaction.reply({ embeds: [embed], ephemeral: true });
@@ -34,6 +34,7 @@ module.exports = {
 
       const userId = interaction.options.getString('user_id');
       const reason = interaction.options.getString('reason') || 'No reason provided';
+      const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
       // Проверяем, забанен ли пользователь
       const banList = await interaction.guild.bans.fetch();
@@ -41,7 +42,7 @@ module.exports = {
 
       if (!bannedUser) {
         const embed = new EmbedBuilder()
-          .setColor('#303135')
+          .setColor(embedColor)
           .setDescription(`<:freeiconcross391116:1288790867204898846>  | User with ID \`${userId}\` is not banned or does not exist.`);
         interaction.editReply({ embeds: [embed] });
         return;
@@ -51,13 +52,13 @@ module.exports = {
       await interaction.guild.members.unban(userId, reason);
 
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> |  User with ID \`${userId}\` has been unbanned.\nReason: **${reason}**.`);
       interaction.editReply({ embeds: [embed] });
     } catch (error) {
       console.log(`Error with /unban: ${error}`);
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> |  An error occurred while trying to unban the user with ID \`${userId}\`.`);
       interaction.editReply({ embeds: [embed] });
     }

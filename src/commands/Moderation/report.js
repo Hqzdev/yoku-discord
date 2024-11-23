@@ -23,12 +23,13 @@ module.exports = {
         const targetUser = interaction.options.getUser('member');
         const guildMember = interaction.guild.members.cache.get(targetUser.id);
         const reason = interaction.options.getString('reason') || 'No reason provided.';
+        const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
         if (!guildMember) {
             const embed = new EmbedBuilder()
                 .setTitle('Error')
                 .setDescription('<:20943crossmark:1268557997349797899> | The user **is not found** on the server.')
-                .setColor('#303135');
+                .setColor(embedColor)
             return interaction.reply({ embeds: [embed], ephemeral: true });
         }
 
@@ -46,13 +47,13 @@ module.exports = {
             const banEmbed = new EmbedBuilder()
                 .setTitle('User blocked')
                 .setDescription(`<:37667checkmark:1268558027364106416> | **${targetUser.username}**  received **3** reports and was blocked. Reason: ${reason}`)
-                .setColor('#303135');
+                .setColor(embedColor)
             return interaction.reply({ embeds: [banEmbed] });
         } else {
             const reportEmbed = new EmbedBuilder()
                 .setTitle('Report send')
                 .setDescription(`<:7824member:1268590978768441437> | **${targetUser.username}** recived **${reports}** report(s) Reason: **${reason}**`)
-                .setColor('#303135');
+                .setColor(embedColor)
             return interaction.reply({ embeds: [reportEmbed] });
         }
     }

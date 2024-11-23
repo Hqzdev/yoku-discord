@@ -21,6 +21,7 @@ module.exports = {
   callback: async (client, interaction) => {
     const user = interaction.options.getUser('user');
     const punishmentId = interaction.options.getString('punishment-id');
+    const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
     // Проверяем, существует ли такое наказание
     const punishment = await Punishment.findOneAndDelete({ userId: user.id, _id: punishmentId });
@@ -33,7 +34,7 @@ module.exports = {
     }
 
     const embed = new EmbedBuilder()
-      .setColor('#303135')
+      .setColor(embedColor)
       .setTitle('Punishment Removed')
       .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | Punishment with ID **${punishmentId}** for <@${user.id}> has been removed.`)
       .setFooter({ text: `Removed by: ${interaction.user.tag}` });

@@ -36,6 +36,7 @@ module.exports = {
     const guildId = interaction.guild.id;
     const userId = user.id;
     const issuedBy = interaction.user.id;
+    const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
     // Создаем запись о наказании в базе данных
     const punishment = new Punishment({
@@ -49,7 +50,7 @@ module.exports = {
     await punishment.save(); // Сохраняем наказание в базе данных
 
     const embed = new EmbedBuilder()
-      .setColor('#303135')
+    .setColor(embedColor)
       .setTitle('Punishment Issued')
       .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | <@${userId}> has been **${type}**. Reason: ${reason}.`)
       .setFooter({ text: `Issued by: ${interaction.user.tag}` });

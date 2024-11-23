@@ -23,7 +23,7 @@ module.exports = {
     // Проверка прав
     if (!interaction.member.permissions.has('MANAGE_MESSAGES')) {
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription('<:freeiconcross391116:1288790867204898846> | You do not have permission to use this command.');
       interaction.editReply({ embeds: [embed] });
       return;
@@ -40,25 +40,26 @@ module.exports = {
       // Получаем последние сообщения канала
       const messages = await interaction.channel.messages.fetch({ limit: 100 });
       const emojiMessages = messages.filter(msg => emojiRegex.test(msg.content)).first(amount);
+      const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
       // Удаляем сообщения с эмодзи
       if (emojiMessages.length > 0) {
         await interaction.channel.bulkDelete(emojiMessages, true);
 
         const embed = new EmbedBuilder()
-          .setColor('#303135')
+          .setColor(embedColor)
           .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | Successfully deleted **${emojiMessages.length}** messages containing emojis.`);
         interaction.editReply({ embeds: [embed] });
       } else {
         const embed = new EmbedBuilder()
-          .setColor('#303135')
+          .setColor(embedColor)
           .setDescription(`<:freeiconcross391116:1288790867204898846> | No messages containing emojis found within the last 100 messages.`);
         interaction.editReply({ embeds: [embed] });
       }
     } catch (error) {
       console.log(`Error with /clean-emoji: ${error}`);
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription('<:freeiconcross391116:1288790867204898846> | An error occurred while trying to delete messages.');
       interaction.editReply({ embeds: [embed] });
     }

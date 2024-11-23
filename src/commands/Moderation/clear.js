@@ -24,7 +24,7 @@ module.exports = {
     // Проверка прав
     if (!interaction.member.permissions.has('MANAGE_MESSAGES')) {
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription('<:freeiconcross391116:1288790867204898846> | You do not have permission to use this command.');
       interaction.editReply({ embeds: [embed] });
       return;
@@ -33,19 +33,20 @@ module.exports = {
     try {
       await interaction.deferReply({ ephemeral: true });
 
-      const amount = interaction.options.getInteger('amount');
+      const amount = interaction.options.getInteger('amount');    
+      const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
       const deletedMessages = await interaction.channel.bulkDelete(amount, true);
 
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | Successfully deleted **${deletedMessages.size}** messages.`);
 
       interaction.editReply({ embeds: [embed] });
     } catch (error) {
       console.log(`Error with /clear: ${error}`);
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription('<:freeiconcross391116:1288790867204898846>| An error occurred while trying to clear messages.');
       interaction.editReply({ embeds: [embed] });
     }

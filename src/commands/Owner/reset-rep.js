@@ -17,6 +17,7 @@ module.exports = {
 
     callback: async (client, interaction) => {
         const targetUser = interaction.options.getUser('member');
+        const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
         // Проверка наличия репортов у пользователя
         if (userReports.has(targetUser.id)) {
@@ -26,7 +27,7 @@ module.exports = {
             const resetEmbed = new EmbedBuilder()
                 .setTitle('Reports Reset')
                 .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> |  **${targetUser.username}'s** reports have been successfully reset.`)
-                .setColor('#303135');
+                .setColor(embedColor).setColor(embedColor)
 
             return interaction.reply({ embeds: [resetEmbed] });
         } else {
@@ -34,7 +35,7 @@ module.exports = {
             const noReportsEmbed = new EmbedBuilder()
                 .setTitle('No Reports Found')
                 .setDescription(`<:freeiconcross391116:1288790867204898846>  | **${targetUser.username}** has no reports to reset.`)
-                .setColor('#303135');
+                .setColor(embedColor).setColor(embedColor)
 
             return interaction.reply({ embeds: [noReportsEmbed], ephemeral: true });
         }

@@ -7,6 +7,7 @@ module.exports = {
   premium: true,
   callback: async (client, interaction) => {
     const guildId = interaction.guild.id;
+    const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
     // Ищем настройки для текущей гильдии
     let guildSettings = await GuildSettings.findOne({ guildId });
@@ -16,7 +17,7 @@ module.exports = {
 
     // Основной Embed с инструкциями
     const embed = new EmbedBuilder()
-      .setColor('#303135')
+      .setColor(embedColor)
       .setTitle('Event Control Panel')
       .setDescription('Select an event and enable/disable it.')
       .setFooter({ text: `Requested by ${interaction.user.tag}`, iconURL: interaction.user.displayAvatarURL() });
@@ -48,7 +49,7 @@ module.exports = {
 
     // Обрабатываем выбор в Select Menu
     collector.on('collect', async (i) => {
-      let eventEmbed = new EmbedBuilder().setColor('#303135');
+      let eventEmbed = new EmbedBuilder().setColor(embedColor);
 
       // Кнопки для включения/выключения события
       const eventToggleButtons = new ActionRowBuilder().addComponents(

@@ -27,11 +27,11 @@ module.exports = {
       const nicknameHistory = dbUser.nicknames
         .map((entry, index) => `${index + 1}. ${entry.nickname} (changed on: ${new Date(entry.date).toLocaleDateString()})`)
         .join('\n');
-
+      const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
       const embed = new EmbedBuilder()
         .setTitle(`${targetUser.username}'s Nickname History`)
         .setDescription(nicknameHistory)
-        .setColor('#303135')
+        .setColor(embedColor)
         .setTimestamp()
         .setFooter({ text: 'Nickname history', iconURL: targetUser.displayAvatarURL({ dynamic: true }) });
 

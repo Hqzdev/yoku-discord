@@ -21,6 +21,7 @@ module.exports = {
   callback: async (client, interaction) => {
     const user = interaction.options.getUser('user');
     const role = interaction.options.getRole('role');
+    const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
     const guildMember = await interaction.guild.members.fetch(user.id);
     await guildMember.roles.remove(role); // Удаляем роль
@@ -29,7 +30,7 @@ module.exports = {
     await TempRole.deleteOne({ guildId: interaction.guild.id, userId: user.id, roleId: role.id });
 
     const embed = new EmbedBuilder()
-    .setColor('#303135')
+    .setColor(embedColor)
       .setDescription(`<:freeiconcross391116:1288790867204898846> | Temporary role **${role.name}** removed from ${user.username}.`);
     interaction.reply({ embeds: [embed] });
   },

@@ -7,14 +7,15 @@ module.exports = {
     callback: async (client, interaction) => {
     const guild = interaction.guild;
     const member = interaction.member;
-    const ticketCategory = '1010977945902403594'; 
+    const ticketCategory = '1010977945902403594';
+    const embedColor = userSettings ? userSettings.systemColor : '#303135';  
 
     // Check if the user already has a ticket open
     const existingChannel = guild.channels.cache.find(c => c.name === `ticket-${member.user.username.toLowerCase()}`);
     if (existingChannel) {
       const embed = new EmbedBuilder()
         .setDescription('<:freeiconinteractivesession149315:1289526191815917622> | You already have an open ticket!')
-        .setColor('#303135') 
+        .setColor(embedColor) 
         .setTimestamp();
 
       return interaction.reply({ embeds: [embed], ephemeral: true });
@@ -44,13 +45,13 @@ module.exports = {
     // Embed to confirm ticket creation in the ticket channel
     const embed = new EmbedBuilder()
       .setDescription('<:freeiconcheckbox1168610:1288790836712308779> | A staff member will assist you shortly.')
-      .setColor('#303135') // Green for success
+      .setColor(embedColor) // Green for success
       .setTimestamp();
 
     // Embed for the reply when the ticket is created
     const replyEmbed = new EmbedBuilder()
       .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | Your ticket has been created in ${ticketChannel}.`)
-      .setColor('#303135') // Green for success
+      .setColor(embedColor) // Green for success
       .setTimestamp();
 
     // Reply to the interaction with an ephemeral embed

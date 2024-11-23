@@ -22,9 +22,10 @@ module.exports = {
       const expirationTime = cooldowns.get(user.id) + cooldownTime;
 
       if (Date.now() < expirationTime) {
-        const timeLeft = (expirationTime - Date.now()) / 1000; // Время до истечения кулдауна
+        const timeLeft = (expirationTime - Date.now()) / 1000;
+        const embedColor = userSettings ? userSettings.systemColor : '#303135';  // Время до истечения кулдауна
         const embed = new EmbedBuilder()
-          .setColor('#303135')
+          .setColor(embedColor)
           .setDescription(`
 <:freeicondailyroutine14991730:1288480944172306486> | You are on cooldown! Please wait ${timeLeft.toFixed(1)} more seconds.`);
         
@@ -37,7 +38,7 @@ module.exports = {
 
     // Ваше действие, которое будет выполняться при использовании команды
     const embed = new EmbedBuilder()
-      .setColor('#303135')
+      .setColor(embedColor)
       .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | You can now use this command. Cooldown is set for ${interaction.options.getInteger('time')} seconds.`);
     
     interaction.reply({ embeds: [embed], ephemeral: true });

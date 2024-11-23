@@ -14,6 +14,7 @@ module.exports = {
   callback: async (client, interaction) => {
     const targetUser = interaction.options.getUser('user');
     const guildMember = interaction.guild.members.cache.get(targetUser.id);
+    const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
     // Роль мьюта, которая должна быть на сервере
     const muteRole = interaction.guild.roles.cache.find(role => role.name === '⚠️・TextMuted');
@@ -36,7 +37,7 @@ module.exports = {
       await guildMember.roles.remove(muteRole);
 
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+      .setColor(embedColor)
         .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | **${targetUser.username}** has been unmuted.`);
       
       return interaction.reply({ embeds: [embed] });

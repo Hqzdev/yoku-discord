@@ -28,6 +28,7 @@ module.exports = {
     const user = interaction.options.getUser('user');
     const role = interaction.options.getRole('role');
     const timeToReduce = interaction.options.getInteger('time');
+    const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
     const tempRole = await TempRole.findOne({ guildId: interaction.guild.id, userId: user.id, roleId: role.id });
     
@@ -39,7 +40,7 @@ module.exports = {
     await tempRole.save();
 
     const embed = new EmbedBuilder()
-    .setColor('#303135')
+    .setColor(embedColor)
       .setDescription(`<:freeicondailyroutine14991730:1288480944172306486> | Reduced **${timeToReduce}** minutes from the temporary role **${role.name}** for ${user.username}. New expiration: ${tempRole.expirationTime}`);
     interaction.reply({ embeds: [embed] });
   },

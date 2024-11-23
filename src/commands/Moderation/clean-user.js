@@ -29,7 +29,7 @@ module.exports = {
     // Проверка прав
     if (!interaction.member.permissions.has('MANAGE_MESSAGES')) {
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+      .setColor(embedColor)
         .setDescription('<:freeiconcross391116:1288790867204898846> | You do not have permission to use this command.');
       interaction.editReply({ embeds: [embed] });
       return;
@@ -38,7 +38,8 @@ module.exports = {
     try {
       await interaction.deferReply({ ephemeral: true });
 
-      const targetUser = interaction.options.getUser('user');
+      const targetUser = interaction.options.getUser('user');   
+      const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
       const amount = interaction.options.getInteger('amount');
 
       // Получаем сообщения канала
@@ -50,19 +51,19 @@ module.exports = {
         await interaction.channel.bulkDelete(userMessages, true);
 
         const embed = new EmbedBuilder()
-          .setColor('#303135')
+          .setColor(embedColor)
           .setDescription(`<:freeiconcheckbox1168610:1288790836712308779> | Successfully deleted **${userMessages.length}** messages from **${targetUser.username}**.`);
         interaction.editReply({ embeds: [embed] });
       } else {
         const embed = new EmbedBuilder()
-          .setColor('#303135')
+          .setColor(embedColor)
           .setDescription(`<:freeiconcross391116:1288790867204898846> | No messages from **${targetUser.username}** found within the last 100 messages.`);
         interaction.editReply({ embeds: [embed] });
       }
     } catch (error) {
       console.log(`Error with /clean-user: ${error}`);
       const embed = new EmbedBuilder()
-        .setColor('#303135')
+        .setColor(embedColor)
         .setDescription('<:freeiconcross391116:1288790867204898846> | An error occurred while trying to delete messages.');
       interaction.editReply({ embeds: [embed] });
     }

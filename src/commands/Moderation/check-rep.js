@@ -15,12 +15,13 @@ module.exports = {
     callback: async (client, interaction) => {
         const targetUser = interaction.options.getUser('member');
         const guildMember = interaction.guild.members.cache.get(targetUser.id);
+        const embedColor = userSettings ? userSettings.systemColor : '#303135'; 
 
         if (!guildMember) {
             const embed = new EmbedBuilder()
                 .setTitle('Error')
                 .setDescription('<:20943crossmark:1268557997349797899> | The user **is not found** on the server.')
-                .setColor('#303135');
+                .setColor(embedColor)
             return interaction.reply({ embeds: [embed], ephemeral: true });
         }
 
@@ -30,7 +31,7 @@ module.exports = {
         const reportEmbed = new EmbedBuilder()
             .setTitle('Check Reports')
             .setDescription(`<:7824member:1268590978768441437> | **${targetUser.username}** has **${reports}** report(s).`)
-            .setColor('#303135');
+            .setColor(embedColor)
 
         return interaction.reply({ embeds: [reportEmbed] });
     }
