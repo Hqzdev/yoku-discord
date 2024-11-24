@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 
 module.exports = {
     name: "add-time-giveaway",
