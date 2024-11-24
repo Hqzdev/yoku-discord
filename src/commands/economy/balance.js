@@ -1,6 +1,7 @@
 const { Client, Interaction, ApplicationCommandOptionType, EmbedBuilder } = require('discord.js');
 const User = require('../../models/User');
-const UserSettings = require('../../models/UserSettings'); 
+const UserSettings = require('../../models/UserSettings');
+
 module.exports = {
   /*
    *
@@ -10,9 +11,10 @@ module.exports = {
   callback: async (client, interaction) => {
     const userSettings = await UserSettings.findOne({ guildId: interaction.guild.id, userId: interaction.user.id });
     const embedColor = userSettings ? userSettings.systemColor : '#303135';
+
     if (!interaction.inGuild()) {
       const embed = new EmbedBuilder()
-      .setColor(embedColor)
+        .setColor(embedColor)
         .setDescription('You can only run this command inside a server.');
 
       interaction.reply({ embeds: [embed], ephemeral: true });
@@ -30,7 +32,7 @@ module.exports = {
     // Если пользователя нет в базе данных, создаем профиль
     if (!user) {
       const embed = new EmbedBuilder()
-      .setColor(embedColor)
+        .setColor(embedColor)
         .setDescription(`<@${interaction.member.id}> doesn't have a profile yet.`);
 
       interaction.editReply({ embeds: [embed] });
@@ -38,15 +40,16 @@ module.exports = {
     }
 
     const member = interaction.options.getUser('user') || interaction.user;
-    
-    // Получаем пользовательский цвет или используем цвет по умолчанию
-    const userColor = user.color;
 
     // Создаем Embed для ответа
     const embed = new EmbedBuilder()
-    .setColor(embedColor)
-      .setTitle(`balance of user`)
-      .setDescription(`\n > Money: **${user.default}** <:freeiconmoneybag3141962:1288482986651680778> \n  > Premium money: **${user.premium}** <:freeicondollar1538306:1288482964757282882>`);
+      .setColor(embedColor)
+      .setTitle(`Balance of ${member.username}`)
+      .setDescription(
+        `\n > Money: **${user.default}** <:freeiconmoneybag3141962:1288482986651680778> \n  > Premium money: **${user.premium}** <:freeicondollar1538306:1288482964757282882>`
+      )
+      .setThumbnail(member.displayAvatarURL({ dynamic: true, size: 1024 })) // Устанавливаем аватар пользователя
+      .setTimestamp();
 
     interaction.editReply({ embeds: [embed], ephemeral: true });
   },
